@@ -1,5 +1,7 @@
 package model.Product;
 
+import model.Warehouse.Location;
+
 public abstract class Product {
     private int id;
     private String manufacturer;
@@ -9,8 +11,9 @@ public abstract class Product {
     private double price;
     private int quantityInStock;
     private TypeProduct typeProduct;
+    private Location location;
 
-    public Product(int id, String manufacturer, String model, String name, String color, double price, int quantityInStock, TypeProduct typeProduct) {
+    public Product(int id, String manufacturer, String model, String name, String color, double price, int quantityInStock, TypeProduct typeProduct, Location location) {
         this.id = id;
         this.manufacturer = manufacturer;
         this.model = model;
@@ -19,9 +22,22 @@ public abstract class Product {
         this.price = price;
         this.quantityInStock = quantityInStock;
         this.typeProduct = typeProduct;
+        this.location = location;
     }
 
     public abstract void displayProduct();
+
+    public void updateQuantity(int quantity) {
+        this.quantityInStock += quantity;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public int getId() {
         return id;

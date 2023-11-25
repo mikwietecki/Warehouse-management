@@ -1,11 +1,13 @@
 package model.Product;
 
+import model.Warehouse.Location;
+
 public class Phone extends Product {
     private int rom;
     private int ram;
 
-    public Phone(int id, String manufacturer, String model, String name, String color, double price, int quantityInStock, TypeProduct typeProduct, int rom, int ram) {
-        super(id, manufacturer, model, name, color, price, quantityInStock, typeProduct);
+    public Phone(int id, String manufacturer, String model, String name, String color, double price, int quantityInStock, TypeProduct typeProduct, int rom, int ram, Location location) {
+        super(id, manufacturer, model, name, color, price, quantityInStock, TypeProduct.PHONE,location);
         this.rom = rom;
         this.ram = ram;
     }

@@ -20,6 +20,15 @@ public class Invoice {
         this.invoiceNumber = invoiceNumber;
     }
 
+
+    public double calculateTotal() {
+        double total = 0;
+        for (int i = 0; i < products.size(); i++) {
+            total += products.get(i).getPrice() * quantities.get(i);
+        }
+        return total;
+    }
+
     public Recipient getRecipient() {
         return recipient;
     }
