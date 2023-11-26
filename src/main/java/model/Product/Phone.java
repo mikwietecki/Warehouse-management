@@ -14,7 +14,8 @@ public class Phone extends Product {
 
     @Override
     public void displayProduct() {
-
+        System.out.println("ID[" + getId() + "]Producent: " + getManufacturer() + "   MODEL: " + getModel() + "   NAZWA: " + getName() + "   KOLOR: " + getColor()
+                + "   CENA:   " + getPrice() + "   TYP: " + TypeProduct.PHONE + "   ILOŚĆ: " + getQuantityInStock() + "   RAM\\ROM: " + getRam()+"\\"+getRom());
     }
 
     public int getRom() {

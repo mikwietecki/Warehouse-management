@@ -2,16 +2,15 @@ package model.Warehouse;
 
 import model.Product.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Warehouse {
     private List<Product> products;
 
-    public Warehouse(List<Product> products) {
-        this.products = products;
+    public Warehouse() {
+        this.products = new ArrayList<>();
     }
-
-    public Warehouse() {}
 
     //Funkcja przyjmowania towaru
     public void receiveProduct(Product product, int quantity, Location location) {
@@ -19,7 +18,7 @@ public class Warehouse {
         if (existingProduct != null) {
             existingProduct.updateQuantity(quantity);
         } else {
-            product.updateQuantity(quantity);
+            product.setQuantityInStock(quantity);
             product.setLocation(location);
             products.add(product);
         }
@@ -56,6 +55,16 @@ public class Warehouse {
         Product exisitngproduct = findProduct(product.getId());
         if (exisitngproduct != null) {
             exisitngproduct.setLocation(newLocation);
+        } else {
+            System.out.println("Produkt nie istnieje w magazynie.");
+        }
+    }
+
+    //Funkcja usuwania produktu
+    public void removeProduct(Product product) {
+        Product existingProduct = findProduct(product.getId());
+        if (existingProduct != null) {
+            products.remove(existingProduct);
         } else {
             System.out.println("Produkt nie istnieje w magazynie.");
         }

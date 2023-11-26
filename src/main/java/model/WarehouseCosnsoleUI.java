@@ -23,7 +23,7 @@ public class WarehouseCosnsoleUI {
             System.out.println("6. Usuwanie produktu");
             System.out.println("7. Wyszukiwanie produktu");
             System.out.println("0. Wyjście");
-            System.out.println("Wybierz opcję: ");
+            System.out.print("\nWybierz opcję: ");
 
             choice = sc.nextInt();
             sc.nextLine();
@@ -120,6 +120,159 @@ public class WarehouseCosnsoleUI {
             warehouse.receiveProduct(newProduct, quantity, location);
 
             System.out.println("Nowy produkt przyjęty do magazynu.");
+        }
+    }
+
+    private static void handleIssueProduct() {
+        System.out.println("=== WYDAWANIE TOWARU ===");
+        System.out.println("Podaj ID produktu: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        Product existingProduct = warehouse.findProduct(productId);
+
+        if (existingProduct != null) {
+            System.out.println("Podaj ilość wydawanego towaru: ");
+            int quantity = sc.nextInt();
+            sc.nextLine();
+
+            if (existingProduct.getQuantityInStock() >= quantity) {
+                warehouse.issueProduct(existingProduct, quantity);
+                System.out.println("TOWAR WYDANY");
+            } else {
+                System.out.println("Nie wystarczająca ilość produktu do wydania.");
+            }
+        } else {
+            System.out.println("Produkt o podanym ID nie istnieje w magazynie.");
+        }
+    }
+
+    private static void handleDisplayInventory() {
+        System.out.println("=== STAN MAGAZYNU ===\n");
+        warehouse.displayInventory();
+        System.out.println("\n=== KONIEC STANU MAGAZYNU ===");
+    }
+
+    private static void handleUpdateProduct() {
+        System.out.println("=== MODYFIKACJA PRODUKTU ===");
+
+        System.out.println("Podaj ID produktu do modyfikacji: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        Product existingProduct = warehouse.findProduct(productId);
+
+        if (existingProduct != null) {
+            System.out.println("Aktualne informacje o produkcie");
+            existingProduct.displayProduct();
+
+            System.out.println("=== WYBIERZ OPCJĘ MODYFIKACJI ===");
+            System.out.println("1. Zmiana ilości");
+            System.out.println("2. Zmiana lokalizacji");
+            System.out.println("3. Powrót do menu głównego");
+            System.out.println("Wybierz opcję: ");
+
+            int option = sc.nextInt();
+            sc.nextLine();
+
+            switch (option) {
+                case 1:
+                    System.out.println("Podaj nową ilość: ");
+                    int newQuantity = sc.nextInt();
+                    sc.nextLine();
+                    warehouse.updateProduct(existingProduct, newQuantity);
+                    System.out.println("Ilość produktu zaktualizowama");
+                    break;
+                case 2:
+                    System.out.println("Podaj nową lokalizację (Alejka): ");
+                    char newAisle = sc.nextLine().charAt(0);
+                    System.out.println("Podaj nową lokalizację (Regał): ");
+                    int newShelf = sc.nextInt();
+                    System.out.println("Podaj nową lokalizację (Półka): ");
+                    int newRack = sc.nextInt();
+                    sc.nextLine();
+
+                    Location location = new Location(newAisle, newShelf, newRack);
+                    warehouse.changeProductLocation(existingProduct, location);
+                    System.out.println("Lokalizacja produktu zaktualizowana");
+                    break;
+                case 3:
+                    System.out.println("Powrót do menu głównego.");
+                    break;
+                default:
+                    System.out.println("Nieprawidłowy wybór. Powrót do menu głównego.");
+            }
+        } else {
+            System.out.println("Produkt o podanym ID nie istnieje w magazynie.");
+        }
+    }
+
+    private static void handleChangeProductLocation() {
+        System.out.println("=== ZMIANA LOKALIZACJI PRODUKTU ===");
+        System.out.println("Podaj ID produktu do zmiany lokalizacji: ");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        Product existingProduct = warehouse.findProduct(productId);
+
+        if (existingProduct != null) {
+            System.out.println("Aktualna lokalizacja produktu :");
+            existingProduct.getLocation().displayLocation();
+
+            System.out.println("Podaj nową lokalizację (Alejka): ");
+            char newAisle = sc.nextLine().charAt(0);
+            System.out.println("Podaj nową lokalizację (Regał): ");
+            int newShelf = sc.nextInt();
+            System.out.println("Podaj nową lokalizację (Półka): ");
+            int newRack = sc.nextInt();
+            sc.nextLine();
+
+            Location newLocation = new Location(newAisle, newShelf, newRack);
+            warehouse.changeProductLocation(existingProduct, newLocation);
+
+            System.out.println("Lokalizacja produktu zaktualizowana");
+        } else {
+            System.out.println("Produkt o podanym ID nie istnieje w magazynie.");
+        }
+    }
+
+    private static void handleRemoveProduct() {
+        System.out.println("=== USUWANIE PRODUKTU ===");
+
+        System.out.println("Podaj ID produktu do usunięcia");
+        int productId = sc.nextInt();
+        sc.nextLine();
+
+        Product existingProduct = warehouse.findProduct(productId);
+
+        if (existingProduct != null) {
+            System.out.println("Czy na pewno chcesz usunąć poniższy produkt?");
+            existingProduct.displayProduct();
+            System.out.println("Potwiedź usunięcie (T/N): ");
+            String decision = sc.nextLine();
+
+            if (decision.equalsIgnoreCase("T")) {
+                warehouse.removeProduct(existingProduct);
+                System.out.println("Produkt usunięty z magazynu.");
+            } else {
+                System.out.println("Produkt nie został usunięty.");
+            }
+        } else {
+            System.out.println("Produkt o podanym ID nie istnieje w magazynie.");
+        }
+    }
+
+    private static void handleFindProduct() {
+        System.out.println("=== Wyszukiwanie produktu ===");
+        System.out.println("Podaj ID produktu do wyszukania: ");
+        int productId = sc.nextInt();
+        Product foundProduct = warehouse.findProduct(productId);
+
+        if (foundProduct != null) {
+            System.out.println("Znaleziony produkt: ");
+            foundProduct.displayProduct();
+        } else {
+            System.out.println("Produkt o podanym ID nie istnieje w magazynie");
         }
     }
 
